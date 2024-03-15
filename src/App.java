@@ -4,89 +4,88 @@ public class App extends PApplet {
     public static void main(String[] args) {
         PApplet.main("App");
     }
-    PImage bird;   
-    PImage pipe; 
+//image variables:
+    PImage bird;
+    PImage pipe;
     PImage lost;
-    PImage pipe2;
+    PImage pipeImage;
 
-   
-   
     float playerX = 100;
     float playerY = 300;
     float playerSize = 50;
-    float ySpeed = 0;
-    double xspeed = 0;
-
-    float columnMovement;
+    float ySpeed = 0; //speed for player
+    double xspeed = 0; //speed for pipes
+    float pipeMovement;
     float rectWidth = 50;
 
-    double gravity = 0.2 ; //creates flappy bird movement for the player
-    boolean deathCheck = false;
+    double gravity = 0.2; // creates flappy bird movement for the player
+    boolean deathCheck = false; //check for death
 
     boolean gameOver = false;
     boolean rectCollision = false;
 
-      
     float rectgameOverY = 800;
     float rectgameOverX = 600;
-    
-   
 
-    float rect2X = 700;
-    float rect2Y = 0;
-    float rect2Height = 230;
+     // pipe sizing  
+    float pipe1x = 700;
+    float pipe1y = 0;
+    float pipe1Height = 230;
 
-    float rect3X = 420;
-    float rect3Y = 340;
-    float rect3Height = 250;
+    float pipe2x = 420;
+    float pipe2y = 340;
+    float pipe2Height = 250;
 
-    float rect4X = 100;
-    float rect4Y = 0;
-    float rect4Height = 260;
+    float pipe3x = 100;
+    float pipe3y = 0;
+    float pipe3Height = 260;
 
-    float rect5X = 410;
-    float rect5Y = 0;
-    float rect5Height = 180;
+    float pipe4x = 410;
+    float pipe4y = 0;
+    float pipe4Height = 180;
 
-    float rect6X = 600;
-    float rect6Y = 350;
-    float rect6Height = 250;
+    float pipe5x = 600;
+    float pipe5y = 350;
+    float pipe5Height = 250;
 
-    float rect7X = 800;
-    float rect7Y = 400;
-    float rect7Height = 200;
+    float pipe6x = 800;
+    float pipe6y = 400;
+    float pipe6Height = 200;
 
-    float rect8X = 1100;
-    float rect8Y = 400;
-    float rect8Height = 300;
+    float pipe7x = 1100;
+    float pipe7y = 400;
+    float pipe7Height = 300;
 
     boolean restartGame = false;
 
     public void settings() {
         size(800, 600);
     }
-    public void setup(){
+
+    public void setup() {
         bird = loadImage("Bird.png"); // create variable for printing bird over player
         bird.resize(80, 80);
 
         pipe = loadImage("Pipe.png"); // create variable for printing the pipes over rectangle opstacles
-        pipe2 = loadImage("Pipe2.png"); // create variable for printing the pipes upside down over rectangle obstacles
-       
-       
-        lost=loadImage("Lost.png");
+        pipeImage = loadImage("Pipe2.png"); // create variable for printing the pipes upside down over rectangle
+                                            // obstacles
+
+        lost = loadImage("Lost.png");
     }
+
     public void draw() {
         background(173, 216, 230);
-        player(); 
-        image(bird, playerX-15, playerY-15); // says the bird is the player
-        columnMovement();
-        rectangle();
-        pipes(); 
+        player();
+        image(bird, playerX - 15, playerY - 15); // says the bird is the player
+        pipeMovement();
+        pipe();
+        pipes();
         ifCollision();
         gameOver();
-  }
-       
-    public boolean collision(float rectangleX, float rectangleY, float rectHeight, float playerX, float playerY) { // set collison perameters for when player hits obstacle
+    }
+
+    public boolean collision(float rectangleX, float rectangleY, float rectHeight, float playerX, float playerY) { 
+        // set collison perameters for when player hits pipe            
         if (playerX + playerSize < rectangleX) {
             return false;
         } else if (playerX > rectangleX + rectWidth) {
@@ -99,65 +98,66 @@ public class App extends PApplet {
             return true;
         }
     }
-    public void ifCollision(){
-        if (collision(rect4X, rect4Y, rect4Height, playerX, playerY)) {
+
+    public void ifCollision() { // what happens for collision between pipe and player loop (needs array lists for efieciency)
+        if (collision(pipe3x, pipe3y, pipe3Height, playerX, playerY)) {
             playerDeath();
             restartGame();
-        } else if (collision(rect4X, rect4Y, rectWidth, playerX, playerY)) {
-            playerDeath();
-            restartGame();
-        }
-        if (collision(rect6X, rect6Y, rect6Height, playerX, playerY)) {
-            playerDeath();
-            restartGame();
-        } else if (collision(rect6X, rect6Y, rectWidth, playerX, playerY)) {
+        } else if (collision(pipe3x, pipe3y, rectWidth, playerX, playerY)) {
             playerDeath();
             restartGame();
         }
-        if (collision(rect5X, rect5Y, rect5Height, playerX, playerY)) {
+        if (collision(pipe5x, pipe5y, pipe5Height, playerX, playerY)) {
             playerDeath();
             restartGame();
-        } else if (collision(rect5X, rect5Y, rectWidth, playerX, playerY)) {
-            playerDeath();
-            restartGame();
-        }
-        if (collision(rect3X, rect3Y, rect3Height, playerX, playerY)) {
-            playerDeath();
-            restartGame();
-        } else if (collision(rect3X, rect3Y, rectWidth, playerX, playerY)) {
+        } else if (collision(pipe5x, pipe5y, rectWidth, playerX, playerY)) {
             playerDeath();
             restartGame();
         }
-        if (collision(rect2X, rect2Y, rect2Height, playerX, playerY)) {
+        if (collision(pipe4x, pipe4y, pipe4Height, playerX, playerY)) {
             playerDeath();
             restartGame();
-        } else if (collision(rect2X, rect2Y, rectWidth, playerX, playerY)) {
-            playerDeath();
-            restartGame();
-        }
-        if (collision(rect7X, rect7Y, rect7Height, playerX, playerY)) {
-            playerDeath();
-            restartGame();
-        } else if (collision(rect7X, rect7Y, rectWidth, playerX, playerY)) {
+        } else if (collision(pipe4x, pipe4y, rectWidth, playerX, playerY)) {
             playerDeath();
             restartGame();
         }
-        if (collision(rect8X, rect8Y, rect8Height, playerX, playerY)) {
-                playerDeath();
-                restartGame();
-        } 
-        else if (collision(rect8X, rect8Y, rectWidth, playerX, playerY)) {
-                playerDeath();
-                restartGame();
+        if (collision(pipe2x, pipe2y, pipe2Height, playerX, playerY)) {
+            playerDeath();
+            restartGame();
+        } else if (collision(pipe2x, pipe2y, rectWidth, playerX, playerY)) {
+            playerDeath();
+            restartGame();
+        }
+        if (collision(pipe1x, pipe1y, pipe1Height, playerX, playerY)) {
+            playerDeath();
+            restartGame();
+        } else if (collision(pipe1x, pipe1y, rectWidth, playerX, playerY)) {
+            playerDeath();
+            restartGame();
+        }
+        if (collision(pipe6x, pipe6y, pipe6Height, playerX, playerY)) {
+            playerDeath();
+            restartGame();
+        } else if (collision(pipe6x, pipe6y, rectWidth, playerX, playerY)) {
+            playerDeath();
+            restartGame();
+        }
+        if (collision(pipe7x, pipe7y, pipe7Height, playerX, playerY)) {
+            playerDeath();
+            restartGame();
+        } else if (collision(pipe7x, pipe7y, rectWidth, playerX, playerY)) {
+            playerDeath();
+            restartGame();
         }
     }
-    public void player() { // method that creates the player
+
+    public void player() { // method that creates the player and movement
         noFill();
         noStroke();
         rect(playerX, playerY, playerSize, playerSize);
-        ySpeed += gravity;
-        playerY += ySpeed;
-        if (playerY > height - 25) {
+        ySpeed += gravity; //movement perameters
+        playerY += ySpeed; //movement perameters
+        if (playerY > height - 25) { //movement perameters
             playerDeath();
             restartGame();
         }
@@ -166,116 +166,97 @@ public class App extends PApplet {
             restartGame();
         }
     }
-    public void rectangle() {
-      
-       noFill();
-       noStroke();
-        rect(rect2X, rect2Y, rectWidth, rect2Height);
 
+    public void pipe() { // method that creates pipes (x,y,width,height)
         noFill();
         noStroke();
-        rect(rect3X, rect3Y, rectWidth, rect3Height);
-
-        noFill();
-        noStroke();
-        rect(rect4X, rect4Y, rectWidth, rect4Height);
-
-        noFill();
-        noStroke();
-        rect(rect5X, rect5Y, rectWidth, rect5Height);
-
-        noFill();
-        noStroke();
-        rect(rect6X, rect6Y, rectWidth, rect6Height);
-
-        noFill();
-        noStroke();
-        rect(rect7X, rect7Y, rectWidth, rect7Height);
-
-        noFill();
-        noStroke();
-        rect(rect8X, rect8Y, rectWidth, rect8Height);
+        rect(pipe1x, pipe1y, rectWidth, pipe1Height);
+        rect(pipe2x, pipe2y, rectWidth, pipe2Height);
+        rect(pipe3x, pipe3y, rectWidth, pipe3Height);
+        rect(pipe4x, pipe4y, rectWidth, pipe4Height);
+        rect(pipe5x, pipe5y, rectWidth, pipe5Height);
+        rect(pipe6x, pipe6y, rectWidth, pipe6Height);
+        rect(pipe7x, pipe7y, rectWidth, pipe7Height);
     }
-    public void pipes(){ // method that prints pipes over rectangles
-        image(pipe2, rect2X, rect2Y, rectWidth, rect2Height);
-        image(pipe, rect3X, rect3Y, rectWidth, rect3Height);
-        image(pipe2, rect4X, rect4Y, rectWidth, rect4Height);
-        image(pipe2, rect5X, rect5Y, rectWidth, rect5Height);
-        image(pipe, rect6X, rect6Y, rectWidth, rect6Height);
-        image(pipe, rect7X, rect7Y, rectWidth, rect7Height);
-        image(pipe, rect8X, rect8Y, rectWidth, rect8Height);
+
+    public void pipes() { // method that prints pipes over rectangles
+        image(pipeImage, pipe1x, pipe1y, rectWidth, pipe1Height);
+        image(pipe, pipe2x, pipe2y, rectWidth, pipe2Height);
+        image(pipeImage, pipe3x, pipe3y, rectWidth, pipe3Height);
+        image(pipeImage, pipe4x, pipe4y, rectWidth, pipe4Height);
+        image(pipe, pipe5x, pipe5y, rectWidth, pipe5Height);
+        image(pipe, pipe6x, pipe6y, rectWidth, pipe6Height);
+        image(pipe, pipe7x, pipe7y, rectWidth, pipe7Height);
     }
-   
+
     public void keyPressed() {
-        if (key == ' ') {
+        if (key == ' ') { // if space pressed player flaps
             ySpeed = -4;
-            deathCheck=false;
+            deathCheck = false;
         }
-
         if (keyCode == UP) {
             playerY -= 5;
         }
-
         if (keyCode == DOWN) {
             playerY += 5;
         }
-
-        if (key == 'r') {
-            restartGame();
-        }
     }
+
     public void playerDeath() {
         deathCheck = true;
     }
-    public void columnMovement() {
+
+    public void pipeMovement() { // method for the illusion of the moving pipes
         xspeed = -2;
-        rect2X += xspeed;
-        if (rect2X < 10) {
-            rect2X = 800;
+        pipe1x += xspeed;
+        if (pipe1x < 10) {
+            pipe1x = 800;
         }
-        rect3X += xspeed;
-        if (rect3X < 10) {
-            rect3X = 800;
+        pipe2x += xspeed;
+        if (pipe2x < 10) {
+            pipe2x = 800;
         }
-        rect4X += xspeed;
-        if (rect4X < 10) {
-            rect4X = 800;
+        pipe3x += xspeed;
+        if (pipe3x < 10) {
+            pipe3x = 800;
         }
-        rect5X += xspeed;
-        if (rect5X < 10) {
-            rect5X = 800;
+        pipe4x += xspeed;
+        if (pipe4x < 10) {
+            pipe4x = 800;
         }
-        rect6X += xspeed;
-        if (rect6X < 10) {
-            rect6X = 800;
+        pipe5x += xspeed;
+        if (pipe5x < 10) {
+            pipe5x = 800;
         }
-        rect7X += xspeed;
-        if (rect7X < 10) {
-            rect7X = 800;
+        pipe6x += xspeed;
+        if (pipe6x < 10) {
+            pipe6x = 800;
         }
-        rect8X += xspeed;
-        if (rect8X < 10) {
-            rect8X = 800;
+        pipe7x += xspeed;
+        if (pipe7x < 10) {
+            pipe7x = 800;
         }
     }
-    public void gameOver(){
-        if(deathCheck==true){
+
+    public void gameOver() { // method for after death
+        if (deathCheck == true) {
             background(220);
-            image(lost, 0, 0, width, height);
-           playerY=400;
-           textSize(70);
-           fill(0,0,0);
-           text("Press Space to Play Again", 30, 500);
-        }  
+            image(lost, 0, 0, width, height); // background for death
+            playerY = 400;
+            textSize(70);
+            fill(0, 0, 0);
+            text("Press Space to Play Again", 30, 500);
+        }
     }
-    public void restartGame() {
+
+    public void restartGame() { // reset method when play again
         playerY = 300;
-        rect2X = 700;
-        rect3X = 420;
-        rect4X = 250;
-        rect5X = 410;
-        rect6X = 600;
-        rect7X = 800;
-        rect8X = 1100;
+        pipe1x = 700;
+        pipe2x = 420;
+        pipe3x = 250;
+        pipe4x = 410;
+        pipe5x = 600;
+        pipe6x = 800;
+        pipe7x = 1100;
     }
 }
